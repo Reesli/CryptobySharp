@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{7CD48F00-10DD-4ED7-8ED8-8C529738255D}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>CryptobySharp</RootNamespace>
+    <AssemblyName>CryptobySharp</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\IKVM.OpenJDK.Core.dll</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Core">
+      <HintPath>..\packages\IKVM.OpenJDK.Core.7.2.4630.5\lib\IKVM.OpenJDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.Runtime">
+      <HintPath>..\packages\IKVM.Runtime.7.2.4630.5\lib\IKVM.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.API">
+      <HintPath>..\packages\IKVM.OpenJDK.XML.API.7.2.4630.5\lib\IKVM.OpenJDK.XML.API.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Util">
+      <HintPath>..\packages\IKVM.OpenJDK.Util.7.2.4630.5\lib\IKVM.OpenJDK.Util.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Text">
+      <HintPath>..\packages\IKVM.OpenJDK.Text.7.2.4630.5\lib\IKVM.OpenJDK.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Charsets">
+      <HintPath>..\packages\IKVM.OpenJDK.Charsets.7.2.4630.5\lib\IKVM.OpenJDK.Charsets.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.SwingAWT">
+      <HintPath>..\packages\IKVM.OpenJDK.SwingAWT.7.2.4630.5\lib\IKVM.OpenJDK.SwingAWT.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Security">
+      <HintPath>..\packages\IKVM.OpenJDK.Security.7.2.4630.5\lib\IKVM.OpenJDK.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleSpeedTester">
+      <HintPath>..\packages\SimpleSpeedTester.1.1.0\lib\net40\SimpleSpeedTester.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\Asym\Imp\CryptRSA.cs" />
+    <Compile Include="src\Asym\Itf\CryptAsym.cs" />
+    <Compile Include="src\Client\CryptobyClient.cs" />
+    <Compile Include="src\Core\CryptobyCore.cs" />
+    <Compile Include="src\Filemgr\CryptobyFileManager.cs" />
+    <Compile Include="src\Helper\CryptobyHelper.cs" />
+    <Compile Include="src\Keygen\Imp\KeyGenRSA.cs" />
+    <Compile Include="src\Keygen\Imp\KeyGenSHA3.cs" />
+    <Compile Include="src\Keygen\Itf\KeyGenAsym.cs" />
+    <Compile Include="src\Keygen\Itf\KeyGenSym.cs" />
+    <Compile Include="src\Prime\Imp\GenPrimeThread.cs" />
+    <Compile Include="src\Prime\Imp\MillerRabin.cs" />
+    <Compile Include="src\Prime\Itf\PrimeTest.cs" />
+    <Compile Include="src\Sym\Imp\CryptAES.cs" />
+    <Compile Include="src\Sym\Imp\CryptTablesAES.cs" />
+    <Compile Include="src\Sym\Itf\CryptSym.cs" />
+    <Compile Include="src\UI\Imp\Console\AesUI.cs" />
+    <Compile Include="src\UI\Imp\Console\CryptobyConsole.cs" />
+    <Compile Include="src\UI\Imp\Console\GenRsaKeyUI.cs" />
+    <Compile Include="src\UI\Imp\Console\GenSHA3UI.cs" />
+    <Compile Include="src\UI\Imp\Console\MillerRabinUI.cs" />
+    <Compile Include="src\UI\Imp\Console\RsaUI.cs" />
+    <Compile Include="src\UI\Itf\CryptobyUI.cs" />
+    <Compile Include="tests\CryptAESTest.cs" />
+    <Compile Include="tests\CryptobyFileManagerTest.cs" />
+    <Compile Include="tests\CryptobyHelperTest.cs" />
+    <Compile Include="tests\CryptRSATest.cs" />
+    <Compile Include="tests\KeyGenRSATest.cs" />
+    <Compile Include="tests\KeyGenSHA3Test.cs" />
+    <Compile Include="perftests\testBigInteger.cs" />
+    <Compile Include="perftests\SpeedTester.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="ExternalDLL\" />
+    <Folder Include="src\" />
+    <Folder Include="tests\" />
+    <Folder Include="perftests\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>
