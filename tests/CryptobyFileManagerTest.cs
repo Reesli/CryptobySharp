@@ -31,7 +31,7 @@ namespace CryptobySharp
 		{
 			System.Console.Out.WriteLine("Put Plaintext, get Plainfile, encrypt and decrypt Byte Files");
 			for (int i = 1; i < 100; i += 3)
-			{   System.Console.WriteLine(i);
+			{   
 				string filePathPlain = "test.txt";
 				string filePathEnc = "test.cty";
 				string filePathDec = "test2.txt";
@@ -42,9 +42,10 @@ namespace CryptobySharp
 				CryptobyCore core = new CryptobyCore(client);
 				CryptRSA rsa = new CryptRSA();
 				KeyGenRSA generator = new KeyGenRSA(core);
+				CryptobyFileManager filemgr = new CryptobyFileManager ();
 				try
 				{
-					CryptobyFileManager.putBytesToFile(filePathPlain, testBytes);
+					filemgr.putBytesToFile(filePathPlain, testBytes);
 				}
 				catch (IOException ex) {
 					Logger.getLogger (typeof(CryptobyFileManagerTest).FullName).log (Level.SEVERE, null
@@ -56,7 +57,7 @@ namespace CryptobySharp
 				byte[] plainInput = null;
 				try
 				{
-					plainInput = CryptobyFileManager.getBytesFromFile(filePathPlain);
+					plainInput = filemgr.getBytesFromFile(filePathPlain);
 				}
 				catch (IOException ex)
 				{
@@ -68,7 +69,7 @@ namespace CryptobySharp
 				// Put encrypted Bytes from File
 				try
 				{
-					CryptobyFileManager.putBytesToFile(filePathEnc, encrypt);
+					filemgr.putBytesToFile(filePathEnc, encrypt);
 				}
 				catch (IOException ex)
 				{
@@ -79,7 +80,7 @@ namespace CryptobySharp
 				byte[] fileEncrypt = null;
 				try
 				{
-					fileEncrypt = CryptobyFileManager.getBytesFromFile (filePathEnc);
+					fileEncrypt = filemgr.getBytesFromFile (filePathEnc);
 				}
 				catch (IOException ex)
 				{
@@ -92,14 +93,14 @@ namespace CryptobySharp
 				Assert.AreEqual(testBytes, decrypt);
 				try
 				{
-					CryptobyFileManager.putBytesToFile(filePathDec, decrypt);
+					filemgr.putBytesToFile(filePathDec, decrypt);
 				}
 				catch (IOException ex)
 				{
 					Logger.getLogger(typeof(CryptobyFileManagerTest).FullName).log(Level.SEVERE, null
 						, ex);
 				}
-
+				filemgr = null;
 			}
 		}
 
@@ -115,6 +116,7 @@ namespace CryptobySharp
 			CryptobyClient client = new CryptobyClient();
 			CryptobyCore core = new CryptobyCore(client);
 			KeyGenRSA generator = new KeyGenRSA(core);
+			CryptobyFileManager filemgr = new CryptobyFileManager ();
 			generator.initGenerator(keySize);
 			byte[] publicKeyByte = generator.getPublicKeyByte();
 			byte[] privateKeyByte = generator.getPrivateKeyByte();
@@ -122,7 +124,7 @@ namespace CryptobySharp
 			string privateKey = generator.getPrivateKey();
 			try
 			{
-				CryptobyFileManager.putKeyToFile(publicKeyFilePath, publicKey);
+				filemgr.putKeyToFile(publicKeyFilePath, publicKey);
 			}
 			catch (IOException ex)
 			{
@@ -131,7 +133,7 @@ namespace CryptobySharp
 			}
 			try
 			{
-				CryptobyFileManager.putKeyToFile(privateKeyFilePath, privateKey);
+				filemgr.putKeyToFile(privateKeyFilePath, privateKey);
 			}
 			catch (IOException ex)
 			{
@@ -141,7 +143,7 @@ namespace CryptobySharp
 			byte[] resultPublic = null;
 			try
 			{
-				resultPublic = CryptobyFileManager.getKeyFromFile(publicKeyFilePath);
+				resultPublic = filemgr.getKeyFromFile(publicKeyFilePath);
 			}
 			catch (IOException ex)
 			{
@@ -151,13 +153,14 @@ namespace CryptobySharp
 			byte[] resultPrivate = null;
 			try
 			{
-				resultPrivate = CryptobyFileManager.getKeyFromFile(privateKeyFilePath);
+				resultPrivate = filemgr.getKeyFromFile(privateKeyFilePath);
 			}
 			catch (IOException ex)
 			{
 				Logger.getLogger(typeof(CryptobyFileManagerTest).FullName).log(Level.SEVERE, null
 					, ex);
 			}
+			filemgr = null;
 			Assert.AreEqual(publicKeyByte, resultPublic);
 			Assert.AreEqual(privateKeyByte, resultPrivate);
 			Assert.AreEqual(publicKey, CryptobyHelper.bytesToHexString(resultPublic

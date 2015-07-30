@@ -67,6 +67,7 @@
     <Reference Include="SimpleSpeedTester">
       <HintPath>..\packages\SimpleSpeedTester.1.1.0\lib\net40\SimpleSpeedTester.dll</HintPath>
     </Reference>
+    <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -99,8 +100,13 @@
     <Compile Include="tests\CryptRSATest.cs" />
     <Compile Include="tests\KeyGenRSATest.cs" />
     <Compile Include="tests\KeyGenSHA3Test.cs" />
-    <Compile Include="perftests\testBigInteger.cs" />
-    <Compile Include="perftests\SpeedTester.cs" />
+    <Compile Include="perftests\functions\TestBigIntC.cs" />
+    <Compile Include="perftests\functions\TestBigIntJava.cs" />
+    <Compile Include="perftests\functions\TestSecRandJava.cs" />
+    <Compile Include="perftests\tester\PerfMeter.cs" />
+    <Compile Include="perftests\functions\TestSecRandC.cs" />
+    <Compile Include="perftests\functions\TestRandPrimJava.cs" />
+    <Compile Include="perftests\functions\TestFileManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -108,6 +114,8 @@
     <Folder Include="src\" />
     <Folder Include="tests\" />
     <Folder Include="perftests\" />
+    <Folder Include="perftests\functions\" />
+    <Folder Include="perftests\tester\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
