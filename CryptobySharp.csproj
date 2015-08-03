@@ -64,9 +64,6 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleSpeedTester">
-      <HintPath>..\packages\SimpleSpeedTester.1.1.0\lib\net40\SimpleSpeedTester.dll</HintPath>
-    </Reference>
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
@@ -106,7 +103,8 @@
     <Compile Include="perftests\tester\PerfMeter.cs" />
     <Compile Include="perftests\functions\TestSecRandC.cs" />
     <Compile Include="perftests\functions\TestRandPrimJava.cs" />
-    <Compile Include="perftests\functions\TestFileManager.cs" />
+    <Compile Include="perftests\functions\TestFileManagerC.cs" />
+    <Compile Include="perftests\functions\TestFileManagerJava.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

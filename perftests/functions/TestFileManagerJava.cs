@@ -45,19 +45,22 @@ namespace CryptobySharp
 
 		public void testRead1FromFile(){
 			file1 = CryptobyFileManager.getBytesFromFile(filePath);
+			file1 = null;
 		}
 
 		public void testRead10FromFile(){
 			file10 = CryptobyFileManager.getBytesFromFile(filePath);
+			file10 = null;
 		}
 
 		public void testRead100FromFileJava(){
 			file100 = CryptobyFileManager.getBytesFromFileJava(filePath);
+			file100 = null;
 		}
 
 		[Test]
 		public void testRun(){
-			int rounds = 20;
+			int rounds = 50;
 
 			Console.WriteLine ("Test Performance Cryptoby FileManager");
 			Console.WriteLine ("Rounds: " + rounds);

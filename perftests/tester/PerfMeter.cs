@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading;
 
 namespace CryptobySharp
 {
@@ -15,9 +14,10 @@ namespace CryptobySharp
 				// stabilizes the CPU cache and pipeline.
 			{
 				testMethod(); // Warmup
+				clearMemory ();
 			}
 			stopwatch.Stop();
-			GC.Collect ();
+			clearMemory ();
 			Console.WriteLine ("Runtime ms;Memory KB");
 			for (int repeat = 0; repeat < rounds; ++repeat)
 			{
@@ -25,9 +25,16 @@ namespace CryptobySharp
 				stopwatch.Start();
 				testMethod();
 				stopwatch.Stop();
+				clearMemory ();
 				Console.WriteLine(stopwatch.ElapsedMilliseconds + ";"
-					+(GC.GetTotalMemory(true)/1024));
+					+(GC.GetTotalMemory(false)/1024));
 			}
+		}
+
+		private static void clearMemory(){
+			GC.Collect ();
+			GC.WaitForPendingFinalizers();
+			GC.Collect ();
 		}
 	}
 }
