@@ -105,6 +105,8 @@
     <Compile Include="perftests\functions\TestRandPrimJava.cs" />
     <Compile Include="perftests\functions\TestFileManagerC.cs" />
     <Compile Include="perftests\functions\TestFileManagerJava.cs" />
+    <Compile Include="perftests\encrypts\TestRSA1024.cs" />
+    <Compile Include="perftests\encrypts\TestRSABlock.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -114,6 +116,7 @@
     <Folder Include="perftests\" />
     <Folder Include="perftests\functions\" />
     <Folder Include="perftests\tester\" />
+    <Folder Include="perftests\encrypts\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
