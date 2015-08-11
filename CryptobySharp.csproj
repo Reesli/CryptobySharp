@@ -107,6 +107,13 @@
     <Compile Include="perftests\functions\TestFileManagerJava.cs" />
     <Compile Include="perftests\encrypts\TestRSA1024.cs" />
     <Compile Include="perftests\encrypts\TestRSABlock.cs" />
+    <Compile Include="perftests\encrypts\TestRSA2048.cs" />
+    <Compile Include="perftests\encrypts\TestRSA4096.cs" />
+    <Compile Include="perftests\encrypts\TestAES256.cs" />
+    <Compile Include="perftests\keygen\TestRSAKeyGen.cs" />
+    <Compile Include="perftests\keygen\TestSHA3KeyGen.cs" />
+    <Compile Include="perftests\prime\TestMillerRabin.cs" />
+    <Compile Include="perftests\prime\BigPrimes.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -117,6 +124,8 @@
     <Folder Include="perftests\functions\" />
     <Folder Include="perftests\tester\" />
     <Folder Include="perftests\encrypts\" />
+    <Folder Include="perftests\keygen\" />
+    <Folder Include="perftests\prime\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
