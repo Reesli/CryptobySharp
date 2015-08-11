@@ -18,7 +18,6 @@ using System;
 using java.security;
 
 using java.nio;
-using sym.imp;
 using sym.itf;
 
 namespace CryptobySharp
@@ -73,8 +72,7 @@ namespace CryptobySharp
 			int inputLength = plainInput.Length;
 			int percentProgress;
 			int prevPercent = -1;
-			byte[] inputLengthByte = ((byte[])ByteBuffer.allocate(4).order(ByteOrder.BIG_ENDIAN
-				).putInt(inputLength).array());
+			byte[] inputLengthByte = ByteBuffer.allocate (4).order (ByteOrder.BIG_ENDIAN).putInt (inputLength).array ();
 			int restInput = plainInput.Length % nBytes;
 			byte[] exKey = initKeyExpand(key);
 			byte[] cipher = new byte[nBytes];
@@ -94,7 +92,7 @@ namespace CryptobySharp
 			// Copy xored prevBlock into first Input Block
 			System.Array.Copy(nextBlock, 0, cryptOutput, 0, nBytes);
 			// Encrypt last BlockArray
-			initVector = this.encryptCipher(initVector, exKey);
+			initVector = encryptCipher (initVector, exKey);
 			// Add the initVector Array in to last BlockArray and encrypt it
 			System.Array.Copy(initVector, 0, cryptOutput, outputLength - nBytes, nBytes);
 			// Add in the first Byte after CryptText the origin length of plaintext Array
@@ -103,13 +101,13 @@ namespace CryptobySharp
 			for (int i = 0; i < outputLength - nBytes; i += nBytes)
 			{
 				// Convert i to percent for ProgressBar
-				percentProgress = (int)(((float)i / (float)(outputLength - nBytes)) * 100);
-				// Print ProgressBar
-				if (percentProgress > prevPercent)
-				{
-					CryptobyHelper.printProgressBar(percentProgress);
-				}
-				prevPercent = percentProgress;
+//				percentProgress = (int)(((float)i / (float)(outputLength - nBytes)) * 100);
+//				// Print ProgressBar
+//				if (percentProgress > prevPercent)
+//				{
+//					CryptobyHelper.printProgressBar(percentProgress);
+//				}
+//				prevPercent = percentProgress;
 				// Copy current block in to Cipher Array
 				System.Array.Copy(nextBlock, 0, cipher, 0, nBytes);
 				// Encrypt Cipher
@@ -123,7 +121,7 @@ namespace CryptobySharp
 				// Copy Cipher back in decryptOutput Array
 				System.Array.Copy(cipher, 0, cryptOutput, i, nBytes);
 			}
-			CryptobyHelper.printProgressBar(100);
+//			CryptobyHelper.printProgressBar(100);
 			return cryptOutput;
 		}
 
@@ -137,8 +135,9 @@ namespace CryptobySharp
 			int percentProgress;
 			int prevPercent = -1;
 			byte[] exKey = initKeyExpand(key);
-			byte[] decryptOutput = cryptInput;
-			int outputLength = decryptOutput.Length;
+			int outputLength = cryptInput.Length;
+			byte[] decryptOutput = new byte[outputLength];
+			System.Array.Copy(cryptInput, 0, decryptOutput, 0, outputLength);
 			byte[] cipher = new byte[nBytes];
 			byte[] inputLengthByte = new byte[nBytes];
 			byte[] plainOutput;
@@ -152,14 +151,14 @@ namespace CryptobySharp
 			System.Array.Copy(initVector, 0, prevBlock, 0, nBytes);
 			for (int i = 0; i < outputLength - nBytes; i += nBytes)
 			{
-				// Convert i to percent for ProgressBar
-				percentProgress = (int)(((float)i / (float)(outputLength - nBytes)) * 100);
-				// Print ProgressBar
-				if (percentProgress > prevPercent)
-				{
-					CryptobyHelper.printProgressBar(percentProgress);
-				}
-				prevPercent = percentProgress;
+//				// Convert i to percent for ProgressBar
+//				percentProgress = (int)(((float)i / (float)(outputLength - nBytes)) * 100);
+//				// Print ProgressBar
+//				if (percentProgress > prevPercent)
+//				{
+//					CryptobyHelper.printProgressBar(percentProgress);
+//				}
+//				prevPercent = percentProgress;
 				// Copy current block in to Cipher Array
 				System.Array.Copy(decryptOutput, i, cipher, 0, nBytes);
 				// Decrypt Cipher
@@ -175,7 +174,7 @@ namespace CryptobySharp
 			}
 			// Read last Index of encryptet Output  
 			// and use the Integer Content for lenght of plainOutput
-			System.Array.Copy(cryptInput, outputLength - nBytes * 2, inputLengthByte, 0, 4);
+			System.Array.Copy(decryptOutput, outputLength - nBytes * 2, inputLengthByte, 0, 4);
 			int lengthOriginArray = ByteBuffer.wrap(inputLengthByte).order(ByteOrder.BIG_ENDIAN
 				).getInt();
 			try
@@ -187,7 +186,7 @@ namespace CryptobySharp
 			{
 				plainOutput = cryptInput;
 			}
-			CryptobyHelper.printProgressBar(100);
+//			CryptobyHelper.printProgressBar(100);
 			return plainOutput;
 		}
 
