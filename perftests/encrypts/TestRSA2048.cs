@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace CryptobySharp
 {
-	public class TestRSA1024
+	public class TestRSA2048
 	{
 		const int cycles = 1;
 		byte[] preData;
@@ -12,11 +12,10 @@ namespace CryptobySharp
 		int kb10;
 		int kb50;
 		int kb100;
-		const int keySize = 1024;
+		const int keySize = 2048;
 		byte[] pubKey;
 		byte[] privKey;
 
-		Random rand;
 		CryptobyClient client;
 		CryptobyCore core;
 		KeyGenRSA keyGen;
@@ -31,7 +30,6 @@ namespace CryptobySharp
 			core = new CryptobyCore(client);
 			keyGen = new KeyGenRSA(core);
 			rsa = new CryptRSA();
-			rand = new Random ();
 		}
 
 		public void testRSAEnc() {
@@ -55,30 +53,27 @@ namespace CryptobySharp
 			privKey = keyGen.getPrivateKeyByte();
 
 			preData = new byte[kb10];
-			rand.NextBytes (preData);
-			Console.WriteLine ("\nEncrypt RSA 1024 Bit 10KB");
+			Console.WriteLine ("\nEncrypt RSA 2048 Bit 10KB");
 			PerfMeter.run(new Action(testRSAEnc),rounds);
-			Console.WriteLine ("\nDecrypt RSA 1024 Bit 10KB");
+			Console.WriteLine ("\nDecrypt RSA 2048 Bit 10KB");
 			PerfMeter.run(new Action(testRSADec),rounds);
 			Assert.AreEqual (preData,resData);
 
 			modData = null;
 			resData = null;
 			preData = new byte[kb50];
-			rand.NextBytes (preData);
-			Console.WriteLine ("\nEncrypt RSA 1024 Bit 50KB");
+			Console.WriteLine ("\nEncrypt RSA 2048 Bit 50KB");
 			PerfMeter.run(new Action(testRSAEnc),rounds);
-			Console.WriteLine ("\nDecrypt RSA 1024 Bit 50KB");
+			Console.WriteLine ("\nDecrypt RSA 2048 Bit 50KB");
 			PerfMeter.run(new Action(testRSADec),rounds);
 			Assert.AreEqual (preData,resData);
 
 			modData = null;
 			resData = null;
 			preData = new byte[kb100];
-			rand.NextBytes (preData);
-			Console.WriteLine ("\nEncrypt RSA 1024 Bit 100KB");
+			Console.WriteLine ("\nEncrypt RSA 2048 Bit 100KB");
 			PerfMeter.run(new Action(testRSAEnc),rounds);
-			Console.WriteLine ("\nDecrypt RSA 1024 Bit 100KB");
+			Console.WriteLine ("\nDecrypt RSA 2048 Bit 100KB");
 			PerfMeter.run(new Action(testRSADec),rounds);
 			Assert.AreEqual (preData,resData);
 		}

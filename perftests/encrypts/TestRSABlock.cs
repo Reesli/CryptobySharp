@@ -6,14 +6,14 @@ namespace CryptobySharp
 {
 	public class TestRSABlock
 	{
-		int cycles = 1;
-		private static readonly BigInteger E = BigInteger.valueOf(65537);
+		const int cycles = 10;
+		static readonly BigInteger E = BigInteger.valueOf(65537);
 		CryptobyClient client;
 		CryptobyCore core;
-		KeyGenRSA generator;
-		int keySize1024 = 1024;
-		int keySize2048 = 2048;
-		int keySize4096 = 4096;
+		KeyGenRSA keyGen;
+		const int keySize1024 = 1024;
+		const int keySize2048 = 2048;
+		const int keySize4096 = 4096;
 		byte[] privKey;
 		byte[] nVal;
 		byte[] dVal;
@@ -25,10 +25,10 @@ namespace CryptobySharp
 		{ 
 			client = new CryptobyClient();
 			core = new CryptobyCore(client);
-			generator = new KeyGenRSA(core);
+			keyGen = new KeyGenRSA(core);
 		}
 
-		private byte[] encryptBlock(byte[] block, BigInteger n)
+		private static byte[] encryptBlock(byte[] block, BigInteger n)
 		{
 			BigInteger blockInt = new BigInteger(block);
 			if (blockInt.compareTo(BigInteger.ZERO) < 0)
@@ -42,7 +42,7 @@ namespace CryptobySharp
 			}
 		}
 
-		private byte[] decryptBlock(byte[] block, BigInteger n, BigInteger d)
+		private static byte[] decryptBlock(byte[] block, BigInteger n, BigInteger d)
 		{
 			BigInteger blockInt = new BigInteger(block);
 			if (blockInt.compareTo(BigInteger.ZERO) < 0)
@@ -56,31 +56,31 @@ namespace CryptobySharp
 			}
 		}
 
-		private byte[] getDfromKey(byte[] privateKey)
+		private static byte[] getDfromKey(byte[] privateKey)
 		{
 			// Get D from the first Part of the PrivateKey
 			int midOfKey = privateKey.Length / 2;
 			byte[] dByteArray = new byte[midOfKey];
-			System.Array.Copy(privateKey, 0, dByteArray, 0, midOfKey);
+			Array.Copy(privateKey, 0, dByteArray, 0, midOfKey);
 			return dByteArray;
 		}
 
-		private byte[] getNfromKey(byte[] privateKey)
+		private static byte[] getNfromKey(byte[] privateKey)
 		{
 			// Get N from the second Part of the PrivateKey
 			int midOfKey = privateKey.Length / 2;
 			byte[] nByteArray = new byte[midOfKey];
-			System.Array.Copy(privateKey, midOfKey, nByteArray, 0, midOfKey);
+			Array.Copy(privateKey, midOfKey, nByteArray, 0, midOfKey);
 			return nByteArray;
 		}
 
-		public void testGetNfromKey(){
+		private void testGetNfromKey(){
 			for (int i = 0; i < cycles; i++) {
 				nVal = getNfromKey (privKey);
 			}
 		}
 
-		public void testGetDfromKey(){
+		private void testGetDfromKey(){
 			for (int i = 0; i < cycles; i++) {
 				dVal = getDfromKey (privKey);
 			}
@@ -103,28 +103,53 @@ namespace CryptobySharp
 
 		[Test]
 		public void testRun(){
-			int rounds = 20;
+			const int rounds = 50;
+			Random rand = new Random ();
 
-			Console.WriteLine ("Test Performance Cryptoby FileManager");
+			Console.WriteLine ("Test Performance Blockwise RSA Enc/Dec");
 			Console.WriteLine ("Rounds: " + rounds);
 			Console.WriteLine ("Cycles per Round: " + cycles);
 
-			generator.initGenerator (keySize1024);
-			privKey = generator.getPrivateKeyByte ();
+			keyGen.initGenerator (keySize1024);
+			privKey = keyGen.getPrivateKeyByte ();
+			testGetDfromKey ();
+			testGetNfromKey ();
 
-			Console.WriteLine ("\nGet N Value from PrivateKey");
-			PerfMeter.run(new Action(testGetNfromKey),rounds);
-			Console.WriteLine ("\nGet D Value from PrivateKey");
-			PerfMeter.run(new Action(testGetDfromKey),rounds);
 			data = new byte[nVal.Length-1];
-			Random rand = new Random ();
 			rand.NextBytes (data);
-			Console.WriteLine ("\nEncrypt One Block with N");
+			Console.WriteLine ("\nBlockwise 1024 Bit Key");
+			Console.WriteLine ("Encrypt One Block with N");
 			PerfMeter.run(new Action(testEncryptBlock),rounds);
-			Console.WriteLine (encBlock.Length);
 			Console.WriteLine ("\nDecrypt One Block with N and D");
 			PerfMeter.run(new Action(testDecryptBlock),rounds);
-			Console.WriteLine (decBlock.Length);
+			Assert.AreEqual (data,decBlock);
+
+			keyGen.initGenerator (keySize2048);
+			privKey = keyGen.getPrivateKeyByte ();
+			testGetDfromKey ();
+			testGetNfromKey ();
+
+			data = new byte[nVal.Length-1];
+			rand.NextBytes (data);
+			Console.WriteLine ("\nBlockwise 2048 Bit Key");
+			Console.WriteLine ("Encrypt One Block with N");
+			PerfMeter.run(new Action(testEncryptBlock),rounds);
+			Console.WriteLine ("\nDecrypt One Block with N and D");
+			PerfMeter.run(new Action(testDecryptBlock),rounds);
+			Assert.AreEqual (data,decBlock);
+
+			keyGen.initGenerator (keySize4096);
+			privKey = keyGen.getPrivateKeyByte ();
+			testGetDfromKey ();
+			testGetNfromKey ();
+
+			data = new byte[nVal.Length-1];
+			rand.NextBytes (data);
+			Console.WriteLine ("\nBlockwise 4096 Bit Key");
+			Console.WriteLine ("Encrypt One Block with N");
+			PerfMeter.run(new Action(testEncryptBlock),rounds);
+			Console.WriteLine ("\nDecrypt One Block with N and D");
+			PerfMeter.run(new Action(testDecryptBlock),rounds);
 			Assert.AreEqual (data,decBlock);
 
 		}
