@@ -17,18 +17,23 @@ namespace CryptobySharp
 				clearMemory ();
 			}
 			stopwatch.Stop();
-			clearMemory ();
-			Console.WriteLine ("Runtime ms;Memory KB");
+			long totalmem;
+			Console.WriteLine ("Round;Runtime ms;Memory KB");
 			for (int repeat = 0; repeat < rounds; ++repeat)
 			{
 				stopwatch.Reset();
 				stopwatch.Start();
 				testMethod();
 				stopwatch.Stop();
+				totalmem = getUsedMemoryKB ();
 				clearMemory ();
-				Console.WriteLine(stopwatch.ElapsedMilliseconds + ";"
-					+(GC.GetTotalMemory(false)/1024));
+				Console.WriteLine((1+repeat)+";"+stopwatch.ElapsedMilliseconds + ";"
+					+totalmem);
 			}
+		}
+
+		private static long getUsedMemoryKB(){
+			return (GC.GetTotalMemory (false) / 1024);
 		}
 
 		private static void clearMemory(){
