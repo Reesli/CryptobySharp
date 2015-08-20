@@ -16,7 +16,7 @@
  */
 
 
-namespace sym.imp
+namespace CryptobySharp
 {
 	/// <summary>This class provides different helper methods and table for CryptAES class.
 	/// 	</summary>
@@ -37,17 +37,17 @@ namespace sym.imp
 			loadPowX();
 		}
 
-		private readonly byte[] E = new byte[256];
+		readonly byte[] E = new byte[256];
 
-		private readonly byte[] L = new byte[256];
+		readonly byte[] L = new byte[256];
 
-		private readonly byte[] S = new byte[256];
+		readonly byte[] S = new byte[256];
 
-		private readonly byte[] invS = new byte[256];
+		readonly byte[] invS = new byte[256];
 
-		private readonly byte[] inv = new byte[256];
+		readonly byte[] inv = new byte[256];
 
-		private readonly byte[] powX = new byte[15];
+		readonly byte[] powX = new byte[15];
 
 		// "exp" table (base 0x03)
 		// "Log" table (base 0x03)
@@ -60,14 +60,14 @@ namespace sym.imp
 		/// <returns></returns>
 		public virtual byte SBox(byte b)
 		{
-			return S[b & unchecked((int)(0xff))];
+			return S[b & unchecked(0xff)];
 		}
 
 		/// <param name="b"></param>
 		/// <returns></returns>
 		public virtual byte invSBox(byte b)
 		{
-			return invS[b & unchecked((int)(0xff))];
+			return invS[b & unchecked(0xff)];
 		}
 
 		/// <param name="i"></param>
@@ -87,13 +87,13 @@ namespace sym.imp
 			{
 				return 0;
 			}
-			int t = (L[(a & unchecked((int)(0xff)))] & unchecked((int)(0xff))) + (L[(b & unchecked(
-				(int)(0xff)))] & unchecked((int)(0xff)));
+			int t = (L[(a & unchecked((0xff)))] & unchecked((0xff))) + (L[(b & unchecked(
+				(0xff)))] & unchecked((0xff)));
 			if (t > 255)
 			{
 				t = t - 255;
 			}
-			return E[(t & unchecked((int)(0xff)))];
+			return E[(t & unchecked((0xff)))];
 		}
 
 		// FFMul: slow multiply, using shifting
@@ -112,74 +112,74 @@ namespace sym.imp
 				{
 					r = unchecked((byte)(r ^ bb));
 				}
-				t = unchecked((byte)(bb & unchecked((int)(0x80))));
+				t = unchecked((byte)(bb & unchecked((0x80))));
 				bb = unchecked((byte)(bb << 1));
 				if (t != 0)
 				{
-					bb = unchecked((byte)(bb ^ unchecked((int)(0x1b))));
+					bb = unchecked((byte)(bb ^ unchecked((0x1b))));
 				}
-				aa = unchecked((byte)((aa & unchecked((int)(0xff))) >> 1));
+				aa = unchecked((byte)((aa & unchecked((0xff))) >> 1));
 			}
 			return r;
 		}
 
 		// loadE: create and load the E table
-		private void loadE()
+		void loadE()
 		{
-			byte x = unchecked((byte)unchecked((int)(0x01)));
+			byte x = unchecked((byte)unchecked((0x01)));
 			int index = 0;
-			E[index++] = unchecked((byte)unchecked((int)(0x01)));
+			E[index++] = unchecked((byte)unchecked((0x01)));
 			for (int i = 0; i < 255; i++)
 			{
-				byte y = FFMul(x, unchecked((byte)unchecked((int)(0x03))));
+				byte y = FFMul(x, unchecked((byte)unchecked((0x03))));
 				E[index++] = y;
 				x = y;
 			}
 		}
 
 		// loadL: load the L table using the E table
-		private void loadL()
+		void loadL()
 		{
 			// careful: had 254 below several places
 			for (int i = 0; i < 255; i++)
 			{
-				L[E[i] & unchecked((int)(0xff))] = unchecked((byte)i);
+				L[E[i] & unchecked((0xff))] = unchecked((byte)i);
 			}
 		}
 
 		// loadS: load in the table S
-		private void loadS()
+		void loadS()
 		{
 			for (int i = 0; i < 256; i++)
 			{
-				S[i] = unchecked((byte)(subBytes(unchecked((byte)(i & unchecked((int)(0xff))))) &
-					 unchecked((int)(0xff))));
+				S[i] = unchecked((byte)(subBytes(unchecked((byte)(i & unchecked((0xff))))) &
+				unchecked((0xff))));
 			}
 		}
 
 		// loadInv: load in the table inv
-		private void loadInv()
+		void loadInv()
 		{
 			for (int i = 0; i < 256; i++)
 			{
-				inv[i] = unchecked((byte)(FFInv(unchecked((byte)(i & unchecked((int)(0xff))))) & 
-					unchecked((int)(0xff))));
+				inv[i] = unchecked((byte)(FFInv(unchecked((byte)(i & unchecked((0xff))))) & 
+				unchecked((0xff))));
 			}
 		}
 
 		// loadInvS: load the invS table using the S table
-		private void loadInvS()
+		void loadInvS()
 		{
 			for (int i = 0; i < 256; i++)
 			{
-				invS[S[i] & unchecked((int)(0xff))] = unchecked((byte)i);
+				invS[S[i] & unchecked((0xff))] = unchecked((byte)i);
 			}
 		}
 
 		// loadPowX: load the powX table using multiplication
-		private void loadPowX()
+		void loadPowX()
 		{
-			byte x = unchecked((byte)unchecked((int)(0x02)));
+			const byte x = unchecked((byte)unchecked((0x02)));
 			byte xp = x;
 			powX[0] = 1;
 			powX[1] = x;
@@ -195,8 +195,8 @@ namespace sym.imp
 		/// <returns></returns>
 		public virtual byte FFInv(byte b)
 		{
-			byte e = L[b & unchecked((int)(0xff))];
-			return E[unchecked((int)(0xff)) - (e & unchecked((int)(0xff)))];
+			byte e = L[b & unchecked((0xff))];
+			return E[unchecked((0xff)) - (e & unchecked((0xff)))];
 		}
 
 		// ithBIt: return the ith bit of a byte
@@ -205,9 +205,8 @@ namespace sym.imp
 		/// <returns></returns>
 		public virtual int ithBit(byte b, int i)
 		{
-			int[] m = new int[] { unchecked((int)(0x01)), unchecked((int)(0x02)), unchecked((
-				int)(0x04)), unchecked((int)(0x08)), unchecked((int)(0x10)), unchecked((int)(0x20
-				)), unchecked((int)(0x40)), unchecked((int)(0x80)) };
+			int[] m = new int[] { unchecked((0x01)), unchecked((0x02)), unchecked((0x04)), unchecked((0x08)), unchecked((0x10)),
+				unchecked((0x20)), unchecked((0x40)), unchecked((0x80)) };
 			return (b & m[i]) >> i;
 		}
 
@@ -220,9 +219,9 @@ namespace sym.imp
 			if (b != 0)
 			{
 				// if b == 0, leave it alone
-				b = unchecked((byte)(FFInv(b) & unchecked((int)(0xff))));
+				b = unchecked((byte)(FFInv(b) & unchecked((0xff))));
 			}
-			byte c = unchecked((byte)unchecked((int)(0x63)));
+			const byte c = unchecked((byte)unchecked((0x63)));
 			for (int i = 0; i < 8; i++)
 			{
 				int temp = ithBit(b, i) ^ ithBit(b, (i + 4) % 8) ^ ithBit(b, (i + 5) % 8) ^ ithBit

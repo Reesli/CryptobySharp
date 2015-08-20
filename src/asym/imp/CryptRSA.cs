@@ -95,10 +95,10 @@ namespace CryptobySharp
 					// Convert i to percent for ProgressBar
 					percentProgress = (int)(((float)i / (float)plainBlocksLen) * 100);
 					// Print ProgressBar
-					if (percentProgress > prevPercent)
-					{
-						CryptobyHelper.printProgressBar(percentProgress);
-					}
+//					if (percentProgress > prevPercent)
+//					{
+//						CryptobyHelper.printProgressBar(percentProgress);
+//					}
 					prevPercent = percentProgress;
 					// Copy Part of PlainInput in to Block
 					System.Array.Copy(plainInput, i, plainBlock, 0, plainBlockSize);
@@ -158,7 +158,7 @@ namespace CryptobySharp
 			{
 				cryptOutput = encryptBlock(plainInput, n);
 			}
-			CryptobyHelper.printProgressBar(100);
+			//CryptobyHelper.printProgressBar(100);
 			return cryptOutput;
 		}
 
@@ -218,7 +218,7 @@ namespace CryptobySharp
 					// Convert i to percent for ProgressBar
 					percentProgress = (int)(((float)i / (float)dataBlocksLen) * 100);
 					// Print ProgressBar
-					CryptobyHelper.printProgressBar(percentProgress);
+					//CryptobyHelper.printProgressBar(percentProgress);
 					System.Array.Copy(cryptInput, i, dataBlock, 0, dataBlockSize);
 					// XOR with prevBlock
 					dataBlock = CryptobyHelper.xorByteArrays(prevBlock, dataBlock);
@@ -263,7 +263,7 @@ namespace CryptobySharp
 				plainOutput = decryptBlock(cryptInput, n, d);
 			}
 			// Print ProgressBar
-			CryptobyHelper.printProgressBar(100);
+			//CryptobyHelper.printProgressBar(100);
 			return plainOutput;
 		}
 

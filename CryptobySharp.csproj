@@ -87,6 +87,7 @@
     <Reference Include="IKVM.OpenJDK.SwingAWT">
       <HintPath>packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.SwingAWT.dll</HintPath>
     </Reference>
+<<<<<<< HEAD
     <Reference Include="IKVM.OpenJDK.Text">
       <HintPath>packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.Text.dll</HintPath>
     </Reference>
@@ -126,6 +127,9 @@
     <Reference Include="nunit.framework">
       <HintPath>packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
+=======
+    <Reference Include="System.Numerics" />
+>>>>>>> ae613b774a9a3e16bf642a76462272ff5f6581b7
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -158,8 +162,23 @@
     <Compile Include="tests\CryptRSATest.cs" />
     <Compile Include="tests\KeyGenRSATest.cs" />
     <Compile Include="tests\KeyGenSHA3Test.cs" />
-    <Compile Include="perftests\testBigInteger.cs" />
-    <Compile Include="perftests\SpeedTester.cs" />
+    <Compile Include="perftests\functions\TestBigIntC.cs" />
+    <Compile Include="perftests\functions\TestBigIntJava.cs" />
+    <Compile Include="perftests\functions\TestSecRandJava.cs" />
+    <Compile Include="perftests\tester\PerfMeter.cs" />
+    <Compile Include="perftests\functions\TestSecRandC.cs" />
+    <Compile Include="perftests\functions\TestRandPrimJava.cs" />
+    <Compile Include="perftests\functions\TestFileManagerC.cs" />
+    <Compile Include="perftests\functions\TestFileManagerJava.cs" />
+    <Compile Include="perftests\encrypts\TestRSA1024.cs" />
+    <Compile Include="perftests\encrypts\TestRSABlock.cs" />
+    <Compile Include="perftests\encrypts\TestRSA2048.cs" />
+    <Compile Include="perftests\encrypts\TestRSA4096.cs" />
+    <Compile Include="perftests\encrypts\TestAES256.cs" />
+    <Compile Include="perftests\keygen\TestRSAKeyGen.cs" />
+    <Compile Include="perftests\keygen\TestSHA3KeyGen.cs" />
+    <Compile Include="perftests\prime\TestMillerRabin.cs" />
+    <Compile Include="perftests\prime\BigPrimes.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -167,6 +186,11 @@
     <Folder Include="src\" />
     <Folder Include="tests\" />
     <Folder Include="perftests\" />
+    <Folder Include="perftests\functions\" />
+    <Folder Include="perftests\tester\" />
+    <Folder Include="perftests\encrypts\" />
+    <Folder Include="perftests\keygen\" />
+    <Folder Include="perftests\prime\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

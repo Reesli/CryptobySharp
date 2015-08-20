@@ -15,11 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using System.Text;
-
 using java.io;
 using System.IO;
-using System;
 
 namespace CryptobySharp
 {
@@ -29,7 +26,7 @@ namespace CryptobySharp
 	/// In special there are methods for key file loading saving.
 	/// </remarks>
 	/// <author>Tobias Rees</author>
-	public class CryptobyFileManager
+	public static class CryptobyFileManager
 	{
 		/// <summary>This method load plain or encrypted file to byte array from disk</summary>
 		/// <param name="filePath">The Path to file which bytes will be loaded</param>
@@ -40,22 +37,28 @@ namespace CryptobySharp
 		/// </exception>
 		public static byte[] getBytesFromFile(string filePath)
 		{
-			//java.io.File file = new java.io.File(filePath);
-			//BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
-			//int numByte = bis.available();
-			//byte[] output = new byte[numByte];
-			//bis.read(output, 0, numByte);
-			//return output;
+			byte[] buff = null;
+			FileStream fs = new FileStream(filePath, 
+				FileMode.Open, 
+				FileAccess.Read);
+			BinaryReader br = new BinaryReader(fs);
+			long numBytes = new FileInfo(filePath).Length;
+			buff = br.ReadBytes((int) numBytes);
+			br.Close ();
+			fs.Close();
+			return buff;
+		}
 
-//			byte[] buff = null;
-//			FileStream fs = new FileStream(filePath, 
-//				FileMode.Open, 
-//				FileAccess.Read);
-//			BinaryReader br = new BinaryReader(fs);
-//			long numBytes = new FileInfo(filePath).Length;
-//			buff = br.ReadBytes((int) numBytes);
-//			return buff;
-			return System.IO.File.ReadAllBytes(filePath);
+		public static byte[] getBytesFromFileJava(string filePath){
+			
+			FileInputStream fis = new FileInputStream (new java.io.File (filePath));
+			BufferedInputStream bis = new BufferedInputStream(fis);
+			int numByte = bis.available();
+			byte[] buff = new byte[numByte];
+			bis.read(buff, 0, numByte);
+			bis.close ();
+			fis.close ();
+			return buff;
 		}
 
 		/// <summary>This method save plain or encrypted byte array to file on disk</summary>
@@ -75,14 +78,7 @@ namespace CryptobySharp
 				System.IO.File.Create(filePath).Dispose();
 			}
 			try {
-//				FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite);
-//				BinaryWriter bw = new BinaryWriter(fs);
-//				bw.Write(exportByte);
-//				bw.Close();
 				System.IO.File.WriteAllBytes(filePath,exportByte);
-				//FileOutputStream outputStream = new FileOutputStream (filePath);
-				//outputStream.write(exportByte);
-				//outputStream.close();
 			} catch (System.IO.FileNotFoundException) {
 				System.Console.WriteLine("File or Folder not found!");
 				throw new System.IO.FileNotFoundException();
@@ -106,15 +102,6 @@ namespace CryptobySharp
 			StreamReader streamReader = new StreamReader(filePath);
 			string sb = streamReader.ReadToEnd();
 			streamReader.Close();
-			//StringBuilder sb;
-			//sb = new StringBuilder();
-			//BufferedReader br = new BufferedReader (new FileReader (filePath));
-			//string line = br.readLine();
-			//while (line != null)
-			//{
-			//	sb.Append(line);
-			//	line = br.readLine();
-			//}
 			System.Console.WriteLine(CryptobyHelper.hexStringToBytes (sb));
 			return CryptobyHelper.hexStringToBytes (sb);
 		}

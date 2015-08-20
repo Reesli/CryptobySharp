@@ -260,7 +260,6 @@ namespace CryptobySharp
 			Console.Out.WriteLine(keyPath);
 			// Enter for Continues
 			CryptobyHelper.pressEnter();
-
 			// Back to Menu Choose PrimeTest
 			console.menuGenKey();
 		}

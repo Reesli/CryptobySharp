@@ -217,3 +217,4 @@ pip-log.txt
 CryptobySharp.csproj
 packages.config
 
+*.csproj

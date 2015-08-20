@@ -16,6 +16,7 @@
  */
 using NUnit.Framework;
 using System.Text;
+using System;
 
 namespace CryptobySharp
 {
@@ -50,6 +51,11 @@ namespace CryptobySharp
 			byte[] expResult = plainInput;
 			byte[] result = instance.encrypt(plainInput, bKey);
 			result = instance.decrypt(result, bKey);
+			for (int i = 0; i < 10;i++){
+
+				result = instance.encrypt(plainInput, bKey);
+				result = instance.decrypt(result, bKey);
+			}
 			Assert.AreEqual(expResult, result);
 		}
 

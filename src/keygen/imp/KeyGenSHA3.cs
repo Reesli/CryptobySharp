@@ -28,21 +28,16 @@ namespace CryptobySharp
 	/// <author>Tobias Rees</author>
 	public class KeyGenSHA3 : KeyGenSym
 	{
-		private static readonly long[] KeccakRoundConstants = new long[] { unchecked((long
-			)(0x0000000000000001L)), unchecked((long)(0x0000000000008082L)), unchecked((long
-			)(0x800000000000808AL)), unchecked((long)(0x8000000080008000L)), unchecked((long
-			)(0x000000000000808BL)), unchecked((long)(0x0000000080000001L)), unchecked((long
-			)(0x8000000080008081L)), unchecked((long)(0x8000000000008009L)), unchecked((long
-			)(0x000000000000008AL)), unchecked((long)(0x0000000000000088L)), unchecked((long
-			)(0x0000000080008009L)), unchecked((long)(0x000000008000000AL)), unchecked((long
-			)(0x000000008000808BL)), unchecked((long)(0x800000000000008BL)), unchecked((long
-			)(0x8000000000008089L)), unchecked((long)(0x8000000000008003L)), unchecked((long
-			)(0x8000000000008002L)), unchecked((long)(0x8000000000000080L)), unchecked((long
-			)(0x000000000000800AL)), unchecked((long)(0x800000008000000AL)), unchecked((long
-			)(0x8000000080008081L)), unchecked((long)(0x8000000000008080L)), unchecked((long
-			)(0x0000000080000001L)), unchecked((long)(0x8000000080008008L)) };
+		private static readonly ulong[] KeccakRoundConstants = new[] {0x0000000000000001UL, 0x0000000000008082UL, 0x800000000000808AUL,
+			0x8000000080008000UL, 0x000000000000808BUL, 0x0000000080000001UL,
+			0x8000000080008081UL, 0x8000000000008009UL, 0x000000000000008AUL,
+			0x0000000000000088UL, 0x0000000080008009UL, 0x000000008000000AUL, 
+			0x000000008000808BUL, 0x800000000000008BUL, 0x8000000000008089UL,
+			0x8000000000008003UL, 0x8000000000008002UL, 0x8000000000000080UL,
+			0x000000000000800AUL, 0x800000008000000AUL, 0x8000000080008081UL, 
+			0x8000000000008080UL, 0x0000000080000001UL, 0x8000000080008008UL};
 
-		private static readonly int[] KeccakRhoOffsets = new int[] { 0, 1, 62, 28, 27, 36
+		private static readonly int[] KeccakRhoOffsets = { 0, 1, 62, 28, 27, 36
 			, 44, 6, 55, 20, 3, 10, 43, 25, 39, 41, 45, 15, 21, 8, 18, 2, 61, 56, 14 };
 
 		private const int nrRounds = 24;
@@ -57,16 +52,16 @@ namespace CryptobySharp
 
 		private static readonly byte[] state = new byte[KeccakPermutationSizeInBytes];
 
-		private static readonly long[] stateAsWords = new long[KeccakPermutationSize / 64
+		private static readonly ulong[] stateAsWords = new ulong[KeccakPermutationSize / 64
 			];
 
 		private static readonly byte[] dataQueue = new byte[KeccakMaximumRateInBytes];
 
-		private static readonly long[] B = new long[25];
+		private static readonly ulong[] B = new ulong[25];
 
-		private static readonly long[] C = new long[5];
+		private static readonly ulong[] C = new ulong[5];
 
-		private static readonly long[] D = new long[5];
+		private static readonly ulong[] D = new ulong[5];
 
 		private static int rate;
 
@@ -189,7 +184,7 @@ namespace CryptobySharp
 				if ((bitsInQueue == 0) && (databitlen >= rate) && (k <= (databitlen - rate)))
 				{
 					int wholeBlocks = (databitlen - k) / rate;
-					int curData = (int)(k / 8);
+					int curData = (k / 8);
 					for (int j = 0; j < wholeBlocks; j++, curData += rate / 8)
 					{
 						for (int i = 0; i < rate / 8; i++)
@@ -209,7 +204,7 @@ namespace CryptobySharp
 					}
 					int partialByte = partialBlock % 8;
 					partialBlock -= partialByte;
-					System.Array.Copy(data, k / 8, dataQueue, bitsInQueue / 8, partialBlock / 8);
+					Array.Copy(data, k / 8, dataQueue, bitsInQueue / 8, partialBlock / 8);
 					bitsInQueue += partialBlock;
 					k += partialBlock;
 					if (bitsInQueue == rate)
@@ -219,8 +214,7 @@ namespace CryptobySharp
 					if (partialByte > 0)
 					{
 						// Align the last partial byte to the least significant bits
-						byte lastByte = unchecked((byte)((int)(((uint)(data[k / 8] & unchecked((int)(0xFF
-							)))) >> (8 - partialByte))));
+						byte lastByte = unchecked((byte)((int)(((uint)(data[k / 8] & unchecked((0xFF)))) >> (8 - partialByte))));
 						dataQueue[bitsInQueue / 8] = lastByte;
 						bitsInQueue += partialByte;
 						k += partialByte;
@@ -235,7 +229,7 @@ namespace CryptobySharp
 			byte[] hashval = new byte[hashLength / 8];
 			if (hashLength > 0)
 			{
-				System.Array.Copy(dataQueue, 0, hashval, 0, hashLength / 8);
+				Array.Copy(dataQueue, 0, hashval, 0, hashLength / 8);
 			}
 			return hashval;
 		}
@@ -336,7 +330,7 @@ namespace CryptobySharp
 			}
 			else
 			{
-				dataQueue[bitsInQueue / 8] = unchecked((int)(0x01));
+				dataQueue[bitsInQueue / 8] = unchecked((0x01));
 				bitsInQueue += 8;
 			}
 			if (bitsInQueue == rate)
@@ -355,13 +349,13 @@ namespace CryptobySharp
 			{
 				absorbQueue();
 			}
-			dataQueue[bitsInQueue / 8] = unchecked((int)(0x01));
+			dataQueue[bitsInQueue / 8] = unchecked((0x01));
 			bitsInQueue += 8;
 			if (bitsInQueue > 0)
 			{
 				absorbQueue();
 			}
-			System.Array.Copy(state, 0, dataQueue, 0, rate / 8);
+			Array.Copy(state, 0, dataQueue, 0, rate / 8);
 		}
 
 		private static void absorbQueue()
@@ -377,21 +371,16 @@ namespace CryptobySharp
 		}
 
 		// Helper Functions
-		private static long rot(long a, int offset)
+		private static ulong rot(ulong a, int offset)
 		{
-			return (a << offset) | ((long)(((ulong)a) >> -offset));
+			return (a << offset) | ((((ulong)a) >> -offset));
 		}
 
 		private static void fromBytesToWords()
 		{
 			for (int i = 0, j = 0; i < (KeccakPermutationSize / 64); i++, j += 8)
 			{
-				stateAsWords[i] = ((long)state[j] & unchecked((long)(0xFFL))) | ((long)state[j + 
-					1] & unchecked((long)(0xFFL))) << 8 | ((long)state[j + 2] & unchecked((long)(0xFFL
-					))) << 16 | ((long)state[j + 3] & unchecked((long)(0xFFL))) << 24 | ((long)state
-					[j + 4] & unchecked((long)(0xFFL))) << 32 | ((long)state[j + 5] & unchecked((long
-					)(0xFFL))) << 40 | ((long)state[j + 6] & unchecked((long)(0xFFL))) << 48 | ((long
-					)state[j + 7] & unchecked((long)(0xFFL))) << 56;
+				stateAsWords [i] = (ulong)((state [j] & unchecked((0xFFL))) | (state [j + 1] & unchecked((0xFFL))) << 8 | (state [j + 2] & unchecked((0xFFL))) << 16 | (state [j + 3] & unchecked((0xFFL))) << 24 | ((long)state [j + 4] & unchecked((0xFFL))) << 32 | ((long)state [j + 5] & unchecked((0xFFL))) << 40 | (state [j + 6] & unchecked((0xFFL))) << 48 | ((long)state [j + 7] & unchecked((0xFFL))) << 56);
 			}
 		}
 

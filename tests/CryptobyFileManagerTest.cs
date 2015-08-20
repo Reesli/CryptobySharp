@@ -31,7 +31,7 @@ namespace CryptobySharp
 		{
 			System.Console.Out.WriteLine("Put Plaintext, get Plainfile, encrypt and decrypt Byte Files");
 			for (int i = 1; i < 100; i += 3)
-			{   System.Console.WriteLine(i);
+			{   
 				string filePathPlain = "test.txt";
 				string filePathEnc = "test.cty";
 				string filePathDec = "test2.txt";
@@ -99,7 +99,6 @@ namespace CryptobySharp
 					Logger.getLogger(typeof(CryptobyFileManagerTest).FullName).log(Level.SEVERE, null
 						, ex);
 				}
-
 			}
 		}
 
