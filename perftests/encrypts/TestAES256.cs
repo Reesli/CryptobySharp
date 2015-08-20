@@ -5,7 +5,7 @@ namespace CryptobySharp
 {
 	public class TestAES256
 	{
-		const int cycles = 1;
+		const int cycles = 50;
 		byte[] preData;
 		byte[] modData;
 		byte[] resData;

@@ -41,7 +41,7 @@ namespace CryptobySharp
 
 		[Test]
 		public void testRun(){
-			int rounds = 20;
+			int rounds = 50;
 
 			Console.WriteLine ("Test Performance OpenJDK BigInteger Primes with SecureRandom");
 			Console.WriteLine ("Rounds: " + rounds);

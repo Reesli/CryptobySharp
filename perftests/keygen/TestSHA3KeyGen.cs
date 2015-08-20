@@ -24,7 +24,7 @@ namespace CryptobySharp
 
 		[Test]
 		public void testRun(){
-			const int rounds = 1;
+			const int rounds = 50;
 
 			Console.WriteLine ("Test Performance SHA3 Key Generation");
 			Console.WriteLine ("Rounds: " + rounds);

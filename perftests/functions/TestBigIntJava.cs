@@ -41,7 +41,7 @@ namespace CryptobySharp
 
 		[Test]
 		public void testRun(){
-			int rounds = 20;
+			int rounds = 50;
 
 			Console.WriteLine ("Test Performance OpenJDK BigInteger Generation");
 			Console.WriteLine ("Rounds: " + rounds);

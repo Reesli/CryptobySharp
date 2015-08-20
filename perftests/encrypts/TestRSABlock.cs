@@ -103,7 +103,7 @@ namespace CryptobySharp
 
 		[Test]
 		public void testRun(){
-			const int rounds = 50;
+			const int rounds = 1;
 			Random rand = new Random ();
 
 			Console.WriteLine ("Test Performance Blockwise RSA Enc/Dec");

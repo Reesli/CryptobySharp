@@ -42,7 +42,7 @@ namespace CryptobySharp
 
 		[Test]
 		public void testRun(){
-			const int rounds = 1;
+			const int rounds = 50;
 
 			Console.WriteLine ("Test Performance RSA Data Enc/Dec");
 			Console.WriteLine ("Rounds: " + rounds);
