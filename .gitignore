@@ -218,3 +218,7 @@ CryptobySharp.csproj
 packages.config
 
 *.csproj
+*.sln
+CryptobySharp.userprefs
+*.nupkg
+packages/*
